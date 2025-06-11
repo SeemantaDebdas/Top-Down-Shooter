@@ -1,5 +1,4 @@
 using System;
-using System.Security.Cryptography;
 using TDS.Input;
 using UnityEngine;
 
@@ -37,8 +36,6 @@ namespace TDS.Movement
             input.OnMovePerformed += Input_OnMovePerformed;
             input.OnAimPerformed += Input_OnAimPerformed;
 
-            input.OnFirePerformed += Input_OnFirePerformed;
-
             input.OnSprintPerformed += () =>
             {
                 moveSpeed = runSpeed;
@@ -52,16 +49,12 @@ namespace TDS.Movement
             };
         }
 
-        private void Input_OnFirePerformed()
-        {
-            Shoot();
-        }
+
 
         void OnDisable()
         {
             input.OnMovePerformed -= Input_OnMovePerformed;
             input.OnAimPerformed -= Input_OnAimPerformed;
-            input.OnFirePerformed -= Input_OnFirePerformed;
         }
 
         void Input_OnMovePerformed(Vector2 moveInput)
@@ -123,7 +116,7 @@ namespace TDS.Movement
                 lookDirection.y = 0;
                 lookDirection.Normalize();
 
-                aimVisual.position = new Vector3(hitInfo.point.x, transform.position.y, hitInfo.point.z);
+                aimVisual.position = new Vector3(hitInfo.point.x, transform.position.y + 1, hitInfo.point.z);
             }
 
             transform.forward = lookDirection == Vector3.zero ? transform.forward : lookDirection;
@@ -138,9 +131,5 @@ namespace TDS.Movement
             animator.SetFloat("moveZ", moveZ * animMultiplier, 0.1f, Time.deltaTime);
         }
 
-        void Shoot()
-        {
-            animator.SetTrigger("fire");
-        }
     }
 }
