@@ -7,7 +7,7 @@ namespace TDS.Input
     [CreateAssetMenu(fileName = "Input", menuName = "TDS/Input", order = 1)]
     public class InputSO : ScriptableObject, PlayerControls.ICharacterActions
     {
-        public event Action OnFirePerformed, OnSprintPerformed, OnSprintCancelled;
+        public event Action OnFirePerformed, OnSprintPerformed, OnSprintCancelled, OnReloadPerformed;
         public event Action<Vector2> OnMovePerformed;
         public event Action<Vector2> OnAimPerformed;
 
@@ -55,6 +55,14 @@ namespace TDS.Input
             {
                 OnSprintCancelled?.Invoke();
             }
+        }
+
+        public void OnReload(InputAction.CallbackContext context)
+        {
+            if (!context.performed)
+                return;
+
+            OnReloadPerformed?.Invoke();
         }
     }
 
