@@ -12,17 +12,14 @@ namespace TDS.Movement
         [Header("Movement Settings")]
         [SerializeField] float walkSpeed;
         [SerializeField] float runSpeed;
+        [SerializeField] float rotationSpeed;
         [SerializeField] float gravityScale = 1f;
-
-
-        [Header("Rotation Settings")]
-        [SerializeField] LayerMask aimLayerMask;
-        [SerializeField] Transform aimVisual;
 
         CharacterController controller;
         Animator animator;
+        PlayerAim playerAim;
 
-        Vector2 moveInput, aimInput;
+        Vector2 moveInput;
         Vector3 verticalVelocity = Vector3.zero;
         Vector3 lookDirection = Vector3.zero;
         Vector3 moveDirection = Vector3.zero;
@@ -34,7 +31,6 @@ namespace TDS.Movement
         void OnEnable()
         {
             input.OnMovePerformed += Input_OnMovePerformed;
-            input.OnAimPerformed += Input_OnAimPerformed;
 
             input.OnSprintPerformed += () =>
             {
@@ -49,12 +45,9 @@ namespace TDS.Movement
             };
         }
 
-
-
         void OnDisable()
         {
             input.OnMovePerformed -= Input_OnMovePerformed;
-            input.OnAimPerformed -= Input_OnAimPerformed;
         }
 
         void Input_OnMovePerformed(Vector2 moveInput)
@@ -62,15 +55,12 @@ namespace TDS.Movement
             this.moveInput = moveInput;
         }
 
-        void Input_OnAimPerformed(Vector2 aimInput)
-        {
-            this.aimInput = aimInput;
-        }
 
         void Awake()
         {
             controller = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
+            playerAim = GetComponent<PlayerAim>();
             moveSpeed = walkSpeed;
         }
 
@@ -78,7 +68,7 @@ namespace TDS.Movement
         {
             HandleMovement();
             HandleGravity();
-            AimAtMouse();
+            RotateTowardsMousePosition();
             HandleAnimation();
         }
 
@@ -106,20 +96,17 @@ namespace TDS.Movement
             controller.Move(moveSpeed * Time.deltaTime * moveDirection);
         }
 
-        void AimAtMouse()
+        void RotateTowardsMousePosition()
         {
-            Ray ray = Camera.main.ScreenPointToRay(aimInput);
+            Vector3 mousePosition = playerAim.GetRaycastHitInfo().point;
 
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, aimLayerMask))
-            {
-                lookDirection = hitInfo.point - transform.position;
-                lookDirection.y = 0;
-                lookDirection.Normalize();
+            lookDirection = mousePosition - transform.position;
+            lookDirection.y = 0;
+            lookDirection.Normalize();
 
-                aimVisual.position = new Vector3(hitInfo.point.x, transform.position.y + 1, hitInfo.point.z);
-            }
+            Quaternion targetRotation = Quaternion.LookRotation(lookDirection == Vector3.zero ? transform.forward : lookDirection);
 
-            transform.forward = lookDirection == Vector3.zero ? transform.forward : lookDirection;
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
         void HandleAnimation()
