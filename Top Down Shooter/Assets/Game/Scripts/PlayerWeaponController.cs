@@ -5,6 +5,8 @@ namespace TDS
 {
     public class PlayerWeaponController : MonoBehaviour
     {
+        const float REFERENCE_BULLET_SPEED = 20; //for setting the speed to mass ratio. for mass = 1, speed = 20
+
         [SerializeField] InputSO input;
 
         [Header("Weapon Settings")]
@@ -47,7 +49,9 @@ namespace TDS
 
             GameObject spawnedBullet = Instantiate(bulletPrefab, BulletSpawnPoint.position, Quaternion.LookRotation(BulletSpawnPoint.forward));
 
-            spawnedBullet.GetComponent<Rigidbody>().linearVelocity = GetBulletDirection() * bulletSpeed;
+            Rigidbody bulletRb = spawnedBullet.GetComponent<Rigidbody>();
+            bulletRb.mass = REFERENCE_BULLET_SPEED / bulletSpeed;
+            bulletRb.linearVelocity = GetBulletDirection() * bulletSpeed;
 
             Destroy(spawnedBullet, 3f);
 

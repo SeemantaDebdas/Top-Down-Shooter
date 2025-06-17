@@ -60,7 +60,11 @@ namespace TDS
         {
             if (TryGetTargetAtMousePosition(out Target target))
             {
-                AimVisual.position = target.transform.position;
+                if (target.TryGetComponent(out Renderer renderer))
+                    AimVisual.position = renderer.bounds.center;
+                else
+                    AimVisual.position = target.transform.position;
+
                 return;
             }
 
