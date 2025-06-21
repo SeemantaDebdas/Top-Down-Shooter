@@ -71,6 +71,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EquipWeapon1"",
+                    ""type"": ""Button"",
+                    ""id"": ""e492128a-0112-4598-8923-44705eb8647f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EquipWeapon2"",
+                    ""type"": ""Button"",
+                    ""id"": ""13f7b913-1740-4d8c-bb9c-9c30bcaa82e7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DropWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""66748e07-3c1d-41c6-b8af-984b176c1b19"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +199,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4f5cdc4-3fab-4c5b-92ce-f8c9e9a2ebec"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EquipWeapon1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7895edc3-8fcd-419d-8cbd-215086606ab9"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EquipWeapon2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0014f4d-9930-4bfd-be82-deb8004cd0bc"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DropWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -185,6 +245,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Character_Aim = m_Character.FindAction("Aim", throwIfNotFound: true);
         m_Character_Sprint = m_Character.FindAction("Sprint", throwIfNotFound: true);
         m_Character_Reload = m_Character.FindAction("Reload", throwIfNotFound: true);
+        m_Character_EquipWeapon1 = m_Character.FindAction("EquipWeapon1", throwIfNotFound: true);
+        m_Character_EquipWeapon2 = m_Character.FindAction("EquipWeapon2", throwIfNotFound: true);
+        m_Character_DropWeapon = m_Character.FindAction("DropWeapon", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -256,6 +319,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_Aim;
     private readonly InputAction m_Character_Sprint;
     private readonly InputAction m_Character_Reload;
+    private readonly InputAction m_Character_EquipWeapon1;
+    private readonly InputAction m_Character_EquipWeapon2;
+    private readonly InputAction m_Character_DropWeapon;
     public struct CharacterActions
     {
         private @PlayerControls m_Wrapper;
@@ -265,6 +331,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Aim => m_Wrapper.m_Character_Aim;
         public InputAction @Sprint => m_Wrapper.m_Character_Sprint;
         public InputAction @Reload => m_Wrapper.m_Character_Reload;
+        public InputAction @EquipWeapon1 => m_Wrapper.m_Character_EquipWeapon1;
+        public InputAction @EquipWeapon2 => m_Wrapper.m_Character_EquipWeapon2;
+        public InputAction @DropWeapon => m_Wrapper.m_Character_DropWeapon;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -289,6 +358,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @EquipWeapon1.started += instance.OnEquipWeapon1;
+            @EquipWeapon1.performed += instance.OnEquipWeapon1;
+            @EquipWeapon1.canceled += instance.OnEquipWeapon1;
+            @EquipWeapon2.started += instance.OnEquipWeapon2;
+            @EquipWeapon2.performed += instance.OnEquipWeapon2;
+            @EquipWeapon2.canceled += instance.OnEquipWeapon2;
+            @DropWeapon.started += instance.OnDropWeapon;
+            @DropWeapon.performed += instance.OnDropWeapon;
+            @DropWeapon.canceled += instance.OnDropWeapon;
         }
 
         private void UnregisterCallbacks(ICharacterActions instance)
@@ -308,6 +386,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @EquipWeapon1.started -= instance.OnEquipWeapon1;
+            @EquipWeapon1.performed -= instance.OnEquipWeapon1;
+            @EquipWeapon1.canceled -= instance.OnEquipWeapon1;
+            @EquipWeapon2.started -= instance.OnEquipWeapon2;
+            @EquipWeapon2.performed -= instance.OnEquipWeapon2;
+            @EquipWeapon2.canceled -= instance.OnEquipWeapon2;
+            @DropWeapon.started -= instance.OnDropWeapon;
+            @DropWeapon.performed -= instance.OnDropWeapon;
+            @DropWeapon.canceled -= instance.OnDropWeapon;
         }
 
         public void RemoveCallbacks(ICharacterActions instance)
@@ -332,5 +419,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnAim(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnEquipWeapon1(InputAction.CallbackContext context);
+        void OnEquipWeapon2(InputAction.CallbackContext context);
+        void OnDropWeapon(InputAction.CallbackContext context);
     }
 }

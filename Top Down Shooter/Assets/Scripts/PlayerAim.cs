@@ -24,6 +24,7 @@ namespace TDS
         Vector2 aimInput;
         RaycastHit lastKnowHit;
         PlayerWeaponController weaponController;
+        PlayerWeaponVisuals weaponVisuals;
 
         void OnEnable()
         {
@@ -38,6 +39,7 @@ namespace TDS
         void Awake()
         {
             weaponController = GetComponent<PlayerWeaponController>();
+            weaponVisuals = GetComponent<PlayerWeaponVisuals>();
         }
 
         void Input_OnAimPerformed(Vector2 aimInput)
@@ -83,7 +85,17 @@ namespace TDS
 
         void UpdateAimLaser()
         {
-            Vector3 spawnPoint = weaponController.BulletSpawnPoint.position;
+            aimLaserLineRenderer.enabled = weaponController.WeaponReady;
+
+            if (!weaponController.WeaponReady)
+                return;
+
+
+            WeaponModel currentWeaponModel = weaponVisuals.GetCurrentWeaponModel();
+            currentWeaponModel.transform.LookAt(AimVisual);
+            currentWeaponModel.gunPoint.LookAt(AimVisual);
+
+            Vector3 spawnPoint = weaponController.GetBulletSpawnPoint().position;
             aimLaserLineRenderer.SetPosition(0, spawnPoint);
 
             float weaponRange = 4f;

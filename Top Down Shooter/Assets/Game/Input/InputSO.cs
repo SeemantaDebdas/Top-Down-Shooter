@@ -7,7 +7,11 @@ namespace TDS.Input
     [CreateAssetMenu(fileName = "Input", menuName = "TDS/Input", order = 1)]
     public class InputSO : ScriptableObject, PlayerControls.ICharacterActions
     {
-        public event Action OnFirePerformed, OnSprintPerformed, OnSprintCancelled, OnReloadPerformed;
+        public event Action
+        OnFirePerformed, OnFireCancelled,
+        OnReloadPerformed, OnEquipWeapon1Performed, OnEquipWeapon2Performed,
+        OnSprintPerformed, OnSprintCancelled,
+        OnDropPerformed;
         public event Action<Vector2> OnMovePerformed;
         public event Action<Vector2> OnAimPerformed;
 
@@ -33,10 +37,15 @@ namespace TDS.Input
 
         public void OnFire(InputAction.CallbackContext context)
         {
-            if (!context.performed)
-                return;
+            if (context.performed)
+            {
+                OnFirePerformed?.Invoke();
+            }
 
-            OnFirePerformed?.Invoke();
+            if (context.canceled)
+            {
+                OnFireCancelled?.Invoke();
+            }
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -63,6 +72,30 @@ namespace TDS.Input
                 return;
 
             OnReloadPerformed?.Invoke();
+        }
+
+        public void OnEquipWeapon1(InputAction.CallbackContext context)
+        {
+            if (!context.performed)
+                return;
+
+            OnEquipWeapon1Performed?.Invoke();
+        }
+
+        public void OnEquipWeapon2(InputAction.CallbackContext context)
+        {
+            if (!context.performed)
+                return;
+
+            OnEquipWeapon2Performed?.Invoke();
+        }
+
+        public void OnDropWeapon(InputAction.CallbackContext context)
+        {
+            if (!context.performed)
+                return;
+
+            OnDropPerformed?.Invoke();
         }
     }
 

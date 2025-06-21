@@ -18,7 +18,8 @@ namespace TDS
                     Instantiate(bulletHitEffect, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
                 }
 
-                Destroy(gameObject);
+                // Destroy(gameObject);
+                ObjectPool.Instance.ReturnBulletToPool(gameObject);
             }
         }
     }

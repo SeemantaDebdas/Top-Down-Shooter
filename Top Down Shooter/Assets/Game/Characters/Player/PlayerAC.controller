@@ -177,7 +177,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Weapon Grab
+  m_Name: Weapon Equip
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -187,13 +187,13 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 447650871269944780}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: equipSpeed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -252,19 +252,25 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: grabWeapon
+  - m_Name: equipWeapon
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: isGrabbingWeapon
-    m_Type: 4
+  - m_Name: weaponType
+    m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: weaponType
+  - m_Name: equipSpeed
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: reloadSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -383,7 +389,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: grabWeapon
+    m_ConditionEvent: equipWeapon
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4021583625240386998}
@@ -511,9 +517,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: fire
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: isGrabbingWeapon
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -5760500021800730135}
   m_Solo: 0
@@ -596,9 +599,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: reload
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: isGrabbingWeapon
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6877612122202308048}
   m_Solo: 0
@@ -630,13 +630,13 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: a0f88a9518537eb419f68be4a5a79429, type: 3}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: reloadSpeed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
