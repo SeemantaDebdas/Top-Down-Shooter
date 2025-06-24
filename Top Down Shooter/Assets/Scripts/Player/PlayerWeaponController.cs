@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TDS.Input;
 using UnityEngine;
@@ -65,6 +66,9 @@ namespace TDS
             {
                 Shoot();
             }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.T))
+                CurrentWeapon.ToggleBurstMode();
         }
 
         private void Input_OnFirePerformed()
@@ -108,6 +112,8 @@ namespace TDS
             CurrentWeapon = weaponSlots[weaponIndex];
 
             weaponVisuals.PlayWeaponEquipAnimation();
+
+            CameraManager.Instance.ChangeCameraDistance(CurrentWeapon.weaponRange);
         }
 
         void Shoot()
@@ -121,8 +127,38 @@ namespace TDS
             if (CurrentWeapon.shootType == ShootType.Single)
                 isShooting = false;
 
+
+            if (CurrentWeapon.IsBurstModeActive())
+                StartCoroutine(BurstFire());
+            else
+                ShootSingleBullet();
+
+
+            weaponVisuals.PlayShootAnimation();
+        }
+
+        IEnumerator BurstFire()
+        {
+            SetWeaponReady(false);
+
+            for (int i = 0; i < CurrentWeapon.bulletsPerShot; i++)
+            {
+                ShootSingleBullet();
+                yield return new WaitForSeconds(CurrentWeapon.burstFireDelay);
+            }
+
+            SetWeaponReady(true);
+        }
+
+        private void ShootSingleBullet()
+        {
+            CurrentWeapon.bulletsInMagazine--;
+
             GameObject spawnedBullet = ObjectPool.Instance.GetBullet();
             spawnedBullet.transform.SetPositionAndRotation(GetBulletSpawnPoint().position, Quaternion.LookRotation(GetBulletSpawnPoint().forward));
+
+            Bullet bullet = spawnedBullet.GetComponent<Bullet>();
+            bullet.Setup(CurrentWeapon.weaponRange);
 
             Rigidbody bulletRb = spawnedBullet.GetComponent<Rigidbody>();
             bulletRb.mass = REFERENCE_BULLET_SPEED / bulletSpeed;
@@ -130,8 +166,6 @@ namespace TDS
             Vector3 bulletDirection = CurrentWeapon.ApplySpread(GetBulletDirection());
 
             bulletRb.linearVelocity = bulletDirection * bulletSpeed;
-
-            weaponVisuals.PlayShootAnimation();
         }
 
         public Vector3 GetBulletDirection()

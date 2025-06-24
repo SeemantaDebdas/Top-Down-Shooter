@@ -30,9 +30,20 @@ namespace TDS
         [Range(1.1f, 2f)] public float equipSpeed;
         [Range(1.1f, 2f)] public float reloadSpeed;
 
+
         [Header("Shoot Settings")]
         public ShootType shootType;
+        [Range(4f, 20f)] public float weaponRange = 4;
         [Range(1.1f, 20f)] public float fireRate;
+        [Range(1.1f, 20f)] public float defaultFireRate;
+        public int bulletsPerShot = 1;
+
+        [Header("Burst Fire")]
+        public bool hasBurstMode = false;
+        public bool burstModeActive = false;
+        public float burstFireDelay = 0.1f;
+        public int burstBulletsPerShot = 3;
+        public float burstFireRate = 1f;
 
         [Header("Spread Settings")]
         public float baseSpread = 0;
@@ -44,16 +55,7 @@ namespace TDS
 
         float lastShootTime;
 
-        public bool CanShoot()
-        {
-            if (IsReadyToShoot() && HasEnoughBullets())
-            {
-                bulletsInMagazine--;
-                return true;
-            }
-
-            return false;
-        }
+        public bool CanShoot() => IsReadyToShoot() && HasEnoughBullets();
 
         private bool HasEnoughBullets() => bulletsInMagazine > 0;
 
@@ -111,6 +113,38 @@ namespace TDS
                 IncreaseSpread();
 
             lastSpreadUpdateTime = Time.time;
+        }
+
+        public bool HasBurstMode => hasBurstMode;
+
+        public void ToggleBurstMode()
+        {
+            if (!hasBurstMode)
+                return;
+
+            burstModeActive = !burstModeActive;
+
+            if (burstModeActive)
+            {
+                bulletsPerShot = burstBulletsPerShot;
+                fireRate = burstFireRate;
+            }
+            else
+            {
+                bulletsPerShot = 1;
+                fireRate = defaultFireRate;
+            }
+        }
+
+        public bool IsBurstModeActive()
+        {
+            if (weaponType == WeaponType.Shotgun)
+            {
+                burstFireDelay = 0;
+                return true;
+            }
+
+            return burstModeActive;
         }
     }
 }

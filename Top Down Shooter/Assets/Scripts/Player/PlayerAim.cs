@@ -98,7 +98,7 @@ namespace TDS
             Vector3 spawnPoint = weaponController.GetBulletSpawnPoint().position;
             aimLaserLineRenderer.SetPosition(0, spawnPoint);
 
-            float weaponRange = 4f;
+            float weaponRange = weaponController.CurrentWeapon.weaponRange;
             Vector3 laserDirection = weaponController.GetBulletDirection();
             Vector3 endPoint = spawnPoint + laserDirection * weaponRange;
             aimLaserLineRenderer.SetPosition(1, endPoint);

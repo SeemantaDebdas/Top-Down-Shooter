@@ -710,12 +710,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.43364766, y: -0.000000013622216, z: 0.0000000065557173, w: 0.9010825}
-  m_LocalPosition: {x: 0, y: 5.48, z: -2.255}
+  m_LocalRotation: {x: 0.47729737, y: 0.000000022062668, z: -0.000000011983557, w: 0.87874186}
+  m_LocalPosition: {x: -0.00000011206417, y: 6.438925, z: -2.4867215}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1248088527}
   m_LocalEulerAnglesHint: {x: 54, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
@@ -1660,7 +1660,15 @@ MonoBehaviour:
     equipSpeed: 0
     reloadSpeed: 0
     shootType: 0
+    weaponRange: 4
     fireRate: 0
+    defaultFireRate: 0
+    bulletsPerShot: 1
+    hasBurstMode: 0
+    burstModeActive: 0
+    burstFireDelay: 0.1
+    burstBulletsPerShot: 3
+    burstFireRate: 1
     baseSpread: 0
     currentSpread: 0
     maxSpread: 3
@@ -2884,6 +2892,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5520981766457919726, guid: 65be476c2162014468e55f3229d5ad1b, type: 3}
   m_PrefabInstance: {fileID: 1248656793}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1248088525
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1248088527}
+  - component: {fileID: 1248088526}
+  m_Layer: 0
+  m_Name: CameraManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1248088526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248088525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa891655bef639c4194fd4ec0c0e647f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1248088527
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248088525}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 330585546}
+  - {fileID: 1743455377}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1248656793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3710,8 +3764,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1743455377}
   - component: {fileID: 1743455376}
-  - component: {fileID: 1743455375}
-  - component: {fileID: 1743455374}
+  - component: {fileID: 1743455378}
   m_Layer: 0
   m_Name: PlayerFollowCamera
   m_TagString: Untagged
@@ -3719,54 +3772,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1743455374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1743455373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f38bda98361e1de48a4ca2bd86ea3c17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Composition:
-    ScreenPosition: {x: 0, y: 0.05}
-    DeadZone:
-      Enabled: 0
-      Size: {x: 0.2, y: 0.2}
-    HardLimits:
-      Enabled: 0
-      Size: {x: 0.8, y: 0.8}
-      Offset: {x: 0, y: 0}
-  CenterOnActivate: 1
-  TargetOffset: {x: 0, y: -1.17, z: 0}
-  Damping: {x: 0.5, y: 0.5}
-  Lookahead:
-    Enabled: 0
-    Time: 0.25
-    Smoothing: 2
-    IgnoreY: 1
---- !u!114 &1743455375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1743455373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b617507da6d07e749b7efdb34e1173e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TrackerSettings:
-    BindingMode: 4
-    PositionDamping: {x: 1, y: 1, z: 0.5}
-    AngularDampingMode: 0
-    RotationDamping: {x: 1, y: 1, z: 1}
-    QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 4.48, z: -4}
 --- !u!114 &1743455376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3818,13 +3823,44 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1743455373}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.43364766, y: -0.000000013622215, z: 0.0000000065557177, w: 0.9010825}
-  m_LocalPosition: {x: 0, y: 5.48, z: -2.255}
+  m_LocalRotation: {x: 0.47729737, y: 0.000000022062668, z: -0.000000011983557, w: 0.87874186}
+  m_LocalPosition: {x: -0.00000011206417, y: 6.438925, z: -2.4867215}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1248088527}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1743455378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743455373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886251e9a18ece04ea8e61686c173e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraDistance: 4.099608
+  DeadZoneDepth: 0
+  Composition:
+    ScreenPosition: {x: 0, y: 0}
+    DeadZone:
+      Enabled: 0
+      Size: {x: 0.2, y: 0.2}
+    HardLimits:
+      Enabled: 1
+      Size: {x: 0.8, y: 0.8}
+      Offset: {x: 0, y: 0}
+  CenterOnActivate: 1
+  TargetOffset: {x: 0, y: 2, z: -2}
+  Damping: {x: 1, y: 1, z: 0}
+  Lookahead:
+    Enabled: 1
+    Time: 0.2
+    Smoothing: 5
+    IgnoreY: 1
 --- !u!1 &1976989726
 GameObject:
   m_ObjectHideFlags: 0
@@ -4223,6 +4259,174 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[0].fireRate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].fireRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[0].maxSpread
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[0].shootType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].maxSpread
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].shootType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[0].baseSpread
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[0].weaponType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].baseSpread
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].weaponType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[0].weaponRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[0].hasBurstMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].hasBurstMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.fireRate
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[0].currentSpread
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].currentSpread
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.maxSpread
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.shootType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[0].bulletsPerShot
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].bulletsPerShot
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].burstFireDelay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.baseSpread
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.weaponType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[0].burstModeActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].burstModeActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].magazineCapacity
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.hasBurstMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[0].bulletsInMagazine
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].bulletsInMagazine
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.currentSpread
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[0].spreadIncreaseRate
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].spreadIncreaseRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.bulletsPerShot
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.burstFireDelay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: weaponSlots.Array.data[1].burstBulletsPerShot
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.burstModeActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.defaultFireRate
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.magazineCapacity
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.totalReserveAmmo
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.bulletsInMagazine
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.spreadIncreaseRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 251060867784411357, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
+      propertyPath: <CurrentWeapon>k__BackingField.burstBulletsPerShot
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2370476463281521076, guid: 067a463ec096e5242999640a5ebbc3c9, type: 3}
       propertyPath: m_Name
       value: Player
@@ -4337,15 +4541,14 @@ MeshRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1218669623}
   - {fileID: 1660985574}
   - {fileID: 2078636581}
   - {fileID: 1133802048}
-  - {fileID: 1743455377}
   - {fileID: 1607921544}
   - {fileID: 642728220}
   - {fileID: 7892002223106702073}
   - {fileID: 1976989728}
+  - {fileID: 1248088527}

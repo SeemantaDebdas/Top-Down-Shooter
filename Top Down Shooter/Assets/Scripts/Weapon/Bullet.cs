@@ -6,6 +6,22 @@ namespace TDS
     {
         [SerializeField] LayerMask targetLayerMask;
         [SerializeField] GameObject bulletHitEffect;
+
+        float bulletRange;
+        Vector3 startPosition;
+
+        public void Setup(float bulletRange)
+        {
+            this.bulletRange = bulletRange;
+            startPosition = transform.position;
+        }
+
+        void Update()
+        {
+            if (Vector3.Distance(transform.position, startPosition) > bulletRange)
+                ObjectPool.Instance.ReturnBulletToPool(gameObject);
+        }
+
         void OnCollisionEnter(Collision collision)
         {
             if ((targetLayerMask & (1 << collision.gameObject.layer)) != 0)
