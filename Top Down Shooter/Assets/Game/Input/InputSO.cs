@@ -9,9 +9,12 @@ namespace TDS.Input
     {
         public event Action
         OnFirePerformed, OnFireCancelled,
-        OnReloadPerformed, OnEquipWeapon1Performed, OnEquipWeapon2Performed,
+        OnReloadPerformed,
+        OnEquipWeapon1Performed, OnEquipWeapon2Performed, OnEquipWeapon3Performed, OnEquipWeapon4Performed, OnEquipWeapon5Performed,
         OnSprintPerformed, OnSprintCancelled,
-        OnDropPerformed;
+        OnDropPerformed,
+        OnTogglePerformed,
+        OnInteractPerformed;
         public event Action<Vector2> OnMovePerformed;
         public event Action<Vector2> OnAimPerformed;
 
@@ -90,12 +93,52 @@ namespace TDS.Input
             OnEquipWeapon2Performed?.Invoke();
         }
 
+        public void OnEquipWeapon3(InputAction.CallbackContext context)
+        {
+            if (!context.performed)
+                return;
+
+            OnEquipWeapon3Performed?.Invoke();
+        }
+
+        public void OnEquipWeapon4(InputAction.CallbackContext context)
+        {
+            if (!context.performed)
+                return;
+
+            OnEquipWeapon4Performed?.Invoke();
+        }
+
+        public void OnEquipWeapon5(InputAction.CallbackContext context)
+        {
+            if (!context.performed)
+                return;
+
+            OnEquipWeapon5Performed?.Invoke();
+        }
+
         public void OnDropWeapon(InputAction.CallbackContext context)
         {
             if (!context.performed)
                 return;
 
             OnDropPerformed?.Invoke();
+        }
+
+        public void OnToggleWeaponMode(InputAction.CallbackContext context)
+        {
+            if (!context.performed)
+                return;
+
+            OnTogglePerformed?.Invoke();
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            if (!context.performed)
+                return;
+
+            OnInteractPerformed?.Invoke();
         }
     }
 

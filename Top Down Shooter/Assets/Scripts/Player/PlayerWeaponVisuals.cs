@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -65,7 +66,7 @@ namespace TDS
 
             SwitchOffWeaponModels();
             SwitchOffBackupWeaponModels();
-            SwitchOnCurrentBackupWeaponModel();
+            SwitchOnBackupWeaponModels();
 
             ActivateWeaponLayer(animationLayerIdx);
             GetCurrentWeaponModel().gameObject.SetActive(true);
@@ -80,17 +81,20 @@ namespace TDS
             }
         }
 
-        public void SwitchOnCurrentBackupWeaponModel()
+        public void SwitchOnBackupWeaponModels()
         {
-            Weapon currentBackupWeapon = weaponController.GetBackupWeapon();
+            List<Weapon> backupWeapons = weaponController.GetBackupWeapons();
 
-            if (currentBackupWeapon == null)
+            if (backupWeapons == null || backupWeapons.Count == 0)
                 return;
 
-            for (int i = 0; i < backupWeaponModels.Length; i++)
+            foreach (Weapon backupWeapon in backupWeapons)
             {
-                if (backupWeaponModels[i].weaponType == currentBackupWeapon.weaponType)
-                    backupWeaponModels[i].gameObject.SetActive(true);
+                for (int i = 0; i < backupWeaponModels.Length; i++)
+                {
+                    if (backupWeaponModels[i].weaponType == backupWeapon.weaponType)
+                        backupWeaponModels[i].gameObject.SetActive(true);
+                }
             }
         }
 

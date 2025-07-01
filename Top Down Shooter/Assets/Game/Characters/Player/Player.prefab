@@ -960,7 +960,15 @@ MonoBehaviour:
     equipSpeed: 1.1
     reloadSpeed: 1.1
     shootType: 0
+    weaponRange: 4
     fireRate: 1.1
+    defaultFireRate: 0
+    bulletsPerShot: 1
+    hasBurstMode: 0
+    burstModeActive: 0
+    burstFireDelay: 0.1
+    burstBulletsPerShot: 3
+    burstFireRate: 1
     baseSpread: 0
     currentSpread: 0
     maxSpread: 3
@@ -976,7 +984,15 @@ MonoBehaviour:
     equipSpeed: 1.5
     reloadSpeed: 1.1
     shootType: 0
+    weaponRange: 4
     fireRate: 10
+    defaultFireRate: 0
+    bulletsPerShot: 1
+    hasBurstMode: 0
+    burstModeActive: 0
+    burstFireDelay: 0.1
+    burstBulletsPerShot: 3
+    burstFireRate: 1
     baseSpread: 0
     currentSpread: 0
     maxSpread: 0
@@ -988,7 +1004,15 @@ MonoBehaviour:
     equipSpeed: 1.1
     reloadSpeed: 1.1
     shootType: 1
+    weaponRange: 4
     fireRate: 10
+    defaultFireRate: 0
+    bulletsPerShot: 1
+    hasBurstMode: 0
+    burstModeActive: 0
+    burstFireDelay: 0.1
+    burstBulletsPerShot: 3
+    burstFireRate: 1
     baseSpread: 1
     currentSpread: 1
     maxSpread: 5
@@ -2621,7 +2645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 3
-  equipType: 0
+  equipType: 1
   holdType: 2
   gunPoint: {fileID: 7624908069369178186}
   holdPoint: {fileID: 4712990128529101069}

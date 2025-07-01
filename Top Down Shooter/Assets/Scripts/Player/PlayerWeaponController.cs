@@ -12,6 +12,7 @@ namespace TDS
         [SerializeField] InputSO input;
 
         [Header("Weapon Settings")]
+        [SerializeField] WeaponData defaultWeapon = null;
         [SerializeField] Transform weaponHolder = null;
         [field: SerializeField] public Weapon CurrentWeapon { get; private set; }
 
@@ -22,6 +23,9 @@ namespace TDS
         [Header("Inventory")]
         [SerializeField] int maxSlots = 2;
         [SerializeField] List<Weapon> weaponSlots;
+
+        [Header("Pickup")]
+        [SerializeField] GameObject weaponPickupPrefab = null;
         PlayerAim playerAim;
         PlayerWeaponVisuals weaponVisuals;
         bool isShooting = false;
@@ -36,6 +40,7 @@ namespace TDS
 
         void Start()
         {
+            weaponSlots[0] = new Weapon(defaultWeapon);
             EquipWeapon(0);
         }
 
@@ -46,9 +51,14 @@ namespace TDS
 
             input.OnEquipWeapon1Performed += () => EquipWeapon(0);
             input.OnEquipWeapon2Performed += () => EquipWeapon(1);
+            input.OnEquipWeapon3Performed += () => EquipWeapon(2);
+            input.OnEquipWeapon4Performed += () => EquipWeapon(3);
+            input.OnEquipWeapon5Performed += () => EquipWeapon(4);
 
             input.OnDropPerformed += Input_OnDropPerformed;
             input.OnReloadPerformed += Input_OnReloadPerformed;
+
+            input.OnTogglePerformed += () => CurrentWeapon.ToggleBurstMode();
         }
 
         void OnDisable()
@@ -66,9 +76,6 @@ namespace TDS
             {
                 Shoot();
             }
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.T))
-                CurrentWeapon.ToggleBurstMode();
         }
 
         private void Input_OnFirePerformed()
@@ -99,6 +106,9 @@ namespace TDS
             if (weaponSlots.Count <= 1)
                 return;
 
+            DiscardCurrentWeaponAsPickup();
+
+            weaponVisuals.SwitchOffWeaponModels();
             weaponSlots.Remove(CurrentWeapon);
             EquipWeapon(0);
         }
@@ -107,6 +117,9 @@ namespace TDS
 
         private void EquipWeapon(int weaponIndex)
         {
+            if (weaponIndex + 1 > weaponSlots.Count)
+                return;
+
             SetWeaponReady(false);
 
             CurrentWeapon = weaponSlots[weaponIndex];
@@ -154,7 +167,7 @@ namespace TDS
         {
             CurrentWeapon.bulletsInMagazine--;
 
-            GameObject spawnedBullet = ObjectPool.Instance.GetBullet();
+            GameObject spawnedBullet = ObjectPool.Instance.GetObject(bulletPrefab);
             spawnedBullet.transform.SetPositionAndRotation(GetBulletSpawnPoint().position, Quaternion.LookRotation(GetBulletSpawnPoint().forward));
 
             Bullet bullet = spawnedBullet.GetComponent<Bullet>();
@@ -188,13 +201,30 @@ namespace TDS
         /// Called when weapon is picked up
         /// </summary>
         /// <param name="weapon"></param>
-        public void AddWeapon(Weapon weapon)
+        public void PickupWeapon(Weapon newWeapon)
         {
-            if (weaponSlots.Count >= maxSlots)
+            if (TryGetWeaponFromType(newWeapon.weaponType, out Weapon weaponInInventory))
+            {
+                weaponInInventory.totalReserveAmmo += newWeapon.bulletsInMagazine;
                 return;
+            }
 
-            weaponSlots.Add(weapon);
-            weaponVisuals.SwitchOnCurrentBackupWeaponModel();
+
+            if (weaponSlots.Count >= maxSlots)
+            {
+                weaponVisuals.SwitchOffWeaponModels();
+                DiscardCurrentWeaponAsPickup();
+
+                int weaponIndex = weaponSlots.IndexOf(CurrentWeapon);
+
+                weaponSlots[weaponIndex] = newWeapon;
+                EquipWeapon(weaponIndex);
+                return;
+            }
+
+
+            weaponSlots.Add(newWeapon);
+            weaponVisuals.SwitchOnBackupWeaponModels();
         }
 
         public void Reload()
@@ -203,23 +233,52 @@ namespace TDS
             SetWeaponReady(true);
         }
 
-        public Weapon GetBackupWeapon()
+        public List<Weapon> GetBackupWeapons()
         {
+            List<Weapon> backupWeapons = new();
+
             foreach (Weapon weapon in weaponSlots)
             {
                 if (weapon != CurrentWeapon)
                 {
                     print(weapon.weaponType);
-                    return weapon;
+                    backupWeapons.Add(weapon);
                 }
             }
 
-            return null;
+            return backupWeapons;
         }
 
         public void FinishedEquippingWeapon()
         {
             SetWeaponReady(true);
+        }
+
+        public bool TryGetWeaponFromType(WeaponType weaponType, out Weapon weapon)
+        {
+            weapon = null;
+
+            foreach (Weapon item in weaponSlots)
+            {
+                if (item.weaponType == weaponType)
+                {
+                    weapon = item;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        void DiscardCurrentWeaponAsPickup()
+        {
+            GameObject weaponPickupSpawn = ObjectPool.Instance.GetObject(weaponPickupPrefab);
+
+            if (weaponPickupSpawn.TryGetComponent(out PickupWeapon pickupWeapon))
+            {
+                Vector3 spawnPosition = transform.position + transform.forward * 1f + transform.up * 0.75f;
+                pickupWeapon.Setup(CurrentWeapon, spawnPosition);
+            }
         }
     }
 }

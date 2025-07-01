@@ -69,9 +69,54 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "EquipWeapon3",
+                    "type": "Button",
+                    "id": "4f1505ad-b1d0-4d5c-999e-c8683f7d79db",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EquipWeapon4",
+                    "type": "Button",
+                    "id": "f3b97e19-ab79-4923-89fe-7cbc99c3ea81",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EquipWeapon5",
+                    "type": "Button",
+                    "id": "7bce3d78-a009-4c05-abc7-bde658bf2b0c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "DropWeapon",
                     "type": "Button",
                     "id": "66748e07-3c1d-41c6-b8af-984b176c1b19",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleWeaponMode",
+                    "type": "Button",
+                    "id": "abcea20f-06d9-4d93-838f-549646689cbb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "1c57ae63-a112-44d4-9dc9-c1d4de931159",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -202,12 +247,67 @@
                 },
                 {
                     "name": "",
+                    "id": "016e7d03-5219-4cc2-abb6-b79b54ce7471",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipWeapon3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2ab1901b-57e7-4647-b13c-341198aa0371",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipWeapon4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "67b59742-e6aa-4fa8-8e6d-88fbabed5943",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipWeapon5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "e0014f4d-9930-4bfd-be82-deb8004cd0bc",
                     "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "DropWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7d0012a3-142a-43e1-8167-8a32b638a884",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleWeaponMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8e0d8546-7592-43d0-abd4-3851615e0fdc",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

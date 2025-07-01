@@ -19,7 +19,7 @@ namespace TDS
         void Update()
         {
             if (Vector3.Distance(transform.position, startPosition) > bulletRange)
-                ObjectPool.Instance.ReturnBulletToPool(gameObject);
+                ObjectPool.Instance.TryReturnObjectToPool(gameObject);
         }
 
         void OnCollisionEnter(Collision collision)
@@ -31,12 +31,14 @@ namespace TDS
                 // rigidbody.isKinematic = true;
                 if (collision.contactCount > 0)
                 {
-                    Instantiate(bulletHitEffect, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+                    GameObject spawnedImpactFx = ObjectPool.Instance.GetObject(bulletHitEffect);
+                    spawnedImpactFx.transform.SetPositionAndRotation(collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
                 }
 
                 // Destroy(gameObject);
-                ObjectPool.Instance.ReturnBulletToPool(gameObject);
+                ObjectPool.Instance.TryReturnObjectToPool(gameObject);
             }
         }
+
     }
 }

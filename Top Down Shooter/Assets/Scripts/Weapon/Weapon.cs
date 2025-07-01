@@ -18,6 +18,7 @@ namespace TDS
     public class Weapon
     {
         public WeaponType weaponType;
+        public WeaponData WeaponData { get; private set; }
 
         [Header("Magazine Settings")]
         public int bulletsInMagazine;
@@ -27,33 +28,66 @@ namespace TDS
         //Reason why range starts from 1.1 
         //Unity inspector treats value 1 = 0. So weapons during runtime are played with 0 speed and 0 fireRate
         [Header("Animator Settings")]
-        [Range(1.1f, 2f)] public float equipSpeed;
-        [Range(1.1f, 2f)] public float reloadSpeed;
+        public float equipSpeed { get; private set; }
+        public float reloadSpeed { get; private set; }
 
 
         [Header("Shoot Settings")]
         public ShootType shootType;
-        [Range(4f, 20f)] public float weaponRange = 4;
-        [Range(1.1f, 20f)] public float fireRate;
-        [Range(1.1f, 20f)] public float defaultFireRate;
-        public int bulletsPerShot = 1;
+        public float weaponRange { get; private set; } = 4;
+        public float fireRate;
+        private float defaultFireRate;
+        public int bulletsPerShot { get; private set; } = 1;
 
         [Header("Burst Fire")]
-        public bool hasBurstMode = false;
+        public bool hasBurstMode { get; private set; } = false;
         public bool burstModeActive = false;
-        public float burstFireDelay = 0.1f;
-        public int burstBulletsPerShot = 3;
-        public float burstFireRate = 1f;
+        public float burstFireDelay { get; private set; } = 0.1f;
+        private int burstBulletsPerShot = 3;
+        public float burstFireRate { get; private set; } = 1f;
 
         [Header("Spread Settings")]
-        public float baseSpread = 0;
-        public float currentSpread = 0;
-        public float maxSpread = 3;
-        public float spreadIncreaseRate = 0.15f;
+        private float baseSpread = 0;
+        private float currentSpread = 0;
+        private float maxSpread = 3;
+        private float spreadIncreaseRate = 0.15f;
 
         float lastSpreadUpdateTime, spreadCooldownTime = 1;
 
         float lastShootTime;
+        public Weapon(WeaponData weaponData)
+        {
+            this.WeaponData = weaponData;
+
+            bulletsInMagazine = weaponData.bulletsInMagazine;
+            magazineCapacity = weaponData.magazineCapacity;
+            totalReserveAmmo = weaponData.totalReserveAmmo;
+
+            fireRate = weaponData.fireRate;
+            weaponType = weaponData.weaponType;
+
+            bulletsPerShot = weaponData.bulletsPerShot;
+            shootType = weaponData.shootType;
+
+
+            hasBurstMode = weaponData.hasBurstMode;
+            burstModeActive = weaponData.burstModeActive;
+            burstBulletsPerShot = weaponData.burstBulletsPerShot;
+            burstFireRate = weaponData.burstFireRate;
+            burstFireDelay = weaponData.burstFireDelay;
+
+
+            baseSpread = weaponData.baseSpread;
+            maxSpread = weaponData.maxSpread;
+            spreadIncreaseRate = weaponData.spreadIncreaseRate;
+
+
+            reloadSpeed = weaponData.reloadSpeed;
+            equipSpeed = weaponData.equipmentSpeed;
+            weaponRange = weaponData.weaponRange;
+
+            defaultFireRate = fireRate;
+        }
 
         public bool CanShoot() => IsReadyToShoot() && HasEnoughBullets();
 

@@ -9,8 +9,8 @@ namespace TDS
 
         [SerializeField] GameObject bulletPrefab;
         [SerializeField] int poolSize = 20;
+        Dictionary<GameObject, Queue<GameObject>> poolDictionary = new();
 
-        Queue<GameObject> bulletPool = new();
         public static ObjectPool Instance { get; private set; }
         void Awake()
         {
@@ -20,41 +20,56 @@ namespace TDS
             Instance = this;
         }
 
-        void Start()
+        void InitializePool(GameObject prefab)
         {
-            CreateInitialPool();
-        }
+            poolDictionary[prefab] = new();
 
-        void CreateInitialPool()
-        {
             for (int i = 0; i < poolSize; i++)
             {
-                CreateNewBullet();
+                CreateNewObject(prefab);
             }
         }
 
-        private void CreateNewBullet()
+        private void CreateNewObject(GameObject prefab)
         {
-            GameObject bulletSpawn = Instantiate(bulletPrefab, transform);
-            bulletSpawn.SetActive(false);
-            bulletPool.Enqueue(bulletSpawn);
+            GameObject objectSpawn = Instantiate(prefab, transform);
+            objectSpawn.AddComponent<PooledObject>().OriginalPrefab = prefab;
+
+            objectSpawn.SetActive(false);
+            poolDictionary[prefab].Enqueue(objectSpawn);
         }
 
-        public GameObject GetBullet()
+        public GameObject GetObject(GameObject prefab)
         {
-            if (bulletPool.Count == 0)
-                CreateNewBullet();
+            if (!poolDictionary.ContainsKey(prefab))
+                InitializePool(prefab);
 
-            GameObject bullet = bulletPool.Dequeue();
-            bullet.SetActive(true);
-            return bullet;
+            if (poolDictionary[prefab].Count == 0)
+                CreateNewObject(prefab);
+
+            GameObject objectToReturn = poolDictionary[prefab].Dequeue();
+            objectToReturn.SetActive(true);
+            return objectToReturn;
         }
 
-        public void ReturnBulletToPool(GameObject bullet)
+        public bool TryReturnObjectToPool(GameObject objectToReturn)
         {
-            bullet.SetActive(false);
-            bullet.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            bulletPool.Enqueue(bullet);
+            if (objectToReturn.TryGetComponent(out PooledObject _))
+            {
+                ReturnObjectToPool(objectToReturn);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void ReturnObjectToPool(GameObject objectToReturn)
+        {
+            GameObject originalPrefab = objectToReturn.GetComponent<PooledObject>().OriginalPrefab;
+
+            objectToReturn.SetActive(false);
+            objectToReturn.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            poolDictionary[originalPrefab].Enqueue(objectToReturn);
         }
     }
 }
