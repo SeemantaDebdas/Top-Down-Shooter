@@ -10,10 +10,12 @@ namespace TDS
         float bulletRange;
         Vector3 startPosition;
 
-        public void Setup(float bulletRange)
+        public void Setup(float bulletRange, Vector3 position, Quaternion rotation)
         {
             this.bulletRange = bulletRange;
-            startPosition = transform.position;
+
+            transform.SetPositionAndRotation(position, rotation);
+            startPosition = position;
         }
 
         void Update()
@@ -26,6 +28,8 @@ namespace TDS
         {
             if ((targetLayerMask & (1 << collision.gameObject.layer)) != 0)
             {
+                Debug.Log("Colliding with: " + collision.transform.name + " Root: " + collision.transform.root.name);
+
                 Rigidbody rigidbody = GetComponent<Rigidbody>();
                 // rigidbody.constraints = RigidbodyConstraints.FreezeAll;
                 // rigidbody.isKinematic = true;
@@ -34,6 +38,17 @@ namespace TDS
                     GameObject spawnedImpactFx = ObjectPool.Instance.GetObject(bulletHitEffect);
                     spawnedImpactFx.transform.SetPositionAndRotation(collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
                 }
+
+                if (collision.gameObject.TryGetComponent(out Shield shield))
+                {
+                    shield.Damage();
+                }
+                else if (collision.transform.root.TryGetComponent(out Enemy enemy))
+                {
+                    enemy.GetHit();
+                    enemy.AddImpactForceAfterDeath(collision.rigidbody, rigidbody.linearVelocity, collision.contacts[0].point);
+                }
+
 
                 // Destroy(gameObject);
                 ObjectPool.Instance.TryReturnObjectToPool(gameObject);

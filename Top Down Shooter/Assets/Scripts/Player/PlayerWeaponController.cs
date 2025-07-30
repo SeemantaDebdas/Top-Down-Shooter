@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TDS.Input;
 using UnityEngine;
 
@@ -148,6 +149,8 @@ namespace TDS
 
 
             weaponVisuals.PlayShootAnimation();
+
+            TriggerEnemyDodge();
         }
 
         IEnumerator BurstFire()
@@ -168,10 +171,9 @@ namespace TDS
             CurrentWeapon.bulletsInMagazine--;
 
             GameObject spawnedBullet = ObjectPool.Instance.GetObject(bulletPrefab);
-            spawnedBullet.transform.SetPositionAndRotation(GetBulletSpawnPoint().position, Quaternion.LookRotation(GetBulletSpawnPoint().forward));
 
             Bullet bullet = spawnedBullet.GetComponent<Bullet>();
-            bullet.Setup(CurrentWeapon.weaponRange);
+            bullet.Setup(CurrentWeapon.weaponRange, GetBulletSpawnPoint().position, Quaternion.LookRotation(GetBulletSpawnPoint().forward));
 
             Rigidbody bulletRb = spawnedBullet.GetComponent<Rigidbody>();
             bulletRb.mass = REFERENCE_BULLET_SPEED / bulletSpeed;
@@ -241,7 +243,6 @@ namespace TDS
             {
                 if (weapon != CurrentWeapon)
                 {
-                    print(weapon.weaponType);
                     backupWeapons.Add(weapon);
                 }
             }
@@ -278,6 +279,21 @@ namespace TDS
             {
                 Vector3 spawnPosition = transform.position + transform.forward * 1f + transform.up * 0.75f;
                 pickupWeapon.Setup(CurrentWeapon, spawnPosition);
+            }
+        }
+
+        void TriggerEnemyDodge()
+        {
+            Vector3 origin = GetBulletSpawnPoint().position;
+            Vector3 direction = GetBulletDirection();
+
+            if (Physics.Raycast(origin, direction, out RaycastHit hitInfo, CurrentWeapon.weaponRange))
+            {
+                Enemy enemy = hitInfo.transform.GetComponentInParent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TryTriggerDodge();
+                }
             }
         }
     }
