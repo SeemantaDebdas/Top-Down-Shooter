@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2557200483067943339}
   - component: {fileID: 7019086949542186700}
   - component: {fileID: 1747092879678971034}
-  - component: {fileID: 1575696148958822293}
   - component: {fileID: 4978621647285982}
   m_Layer: 8
   m_Name: Enemy
@@ -81,39 +80,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1575696148958822293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 297589004779820249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a76fa861975cf54e904adfde5ffb406, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <healthPoints>k__BackingField: 15
-  <IdleTime>k__BackingField: 3
-  <CombatIdleTime>k__BackingField: 3
-  <WalkSpeed>k__BackingField: 0.52875
-  <ChaseSpeed>k__BackingField: 3.752
-  <DodgeSpeed>k__BackingField: 6.916
-  <RotationSpeed>k__BackingField: 5
-  <AgressionRadius>k__BackingField: 6
-  waypointList:
-  - {fileID: 2744571752582234938}
-  - {fileID: 8110197192805679181}
-  - {fileID: 7253643047735379442}
-  minDistanceToThrowMeleeWeapon: 3
-  <AttackList>k__BackingField:
-  - {fileID: 11400000, guid: f043cd29711fb17408fd8adbd853a53b, type: 2}
-  - {fileID: 11400000, guid: fec4980a6639ba84d9b6a502fffa846f, type: 2}
-  - {fileID: 11400000, guid: b6def09731a061e4cba4ab107d5a8a51, type: 2}
-  weaponHolder: {fileID: 0}
-  <MeleeWeaponSpawnPoint>k__BackingField: {fileID: 0}
-  <ThrownWeaponPrefab>k__BackingField: {fileID: 0}
-  thrownWeaponPrefabList: []
 --- !u!114 &4978621647285982
 MonoBehaviour:
   m_ObjectHideFlags: 0

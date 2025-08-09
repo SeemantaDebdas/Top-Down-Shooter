@@ -527,11 +527,29 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8053518352089800550, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1963738452684093826}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 297589004779820249, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6401607041005425304}
   m_SourcePrefab: {fileID: 100100000, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
+--- !u!4 &245771167721386441 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7253643047735379442, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
+  m_PrefabInstance: {fileID: 7476884095846265915}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &576709504323414877 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8053518352089800550, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
+  m_PrefabInstance: {fileID: 7476884095846265915}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1679296306811679862 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8110197192805679181, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
+  m_PrefabInstance: {fileID: 7476884095846265915}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4743863874167731969 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2744571752582234938, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
   m_PrefabInstance: {fileID: 7476884095846265915}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &4953460630386896272 stripped
@@ -539,3 +557,48 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2557200483067943339, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
   m_PrefabInstance: {fileID: 7476884095846265915}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7197321644343927010 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 297589004779820249, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
+  m_PrefabInstance: {fileID: 7476884095846265915}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6401607041005425304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7197321644343927010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a76fa861975cf54e904adfde5ffb406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <healthPoints>k__BackingField: 15
+  <IdleTime>k__BackingField: 3
+  <CombatIdleTime>k__BackingField: 3
+  <WalkSpeed>k__BackingField: 0.52875
+  <ChaseSpeed>k__BackingField: 3.752
+  <DodgeSpeed>k__BackingField: 6.916
+  <RotationSpeed>k__BackingField: 5
+  <AgressionRadius>k__BackingField: 6
+  waypointList:
+  - {fileID: 4743863874167731969}
+  - {fileID: 1679296306811679862}
+  - {fileID: 245771167721386441}
+  minDistanceToThrowMeleeWeapon: 3
+  <AttackAnimationLayer>k__BackingField: 3
+  <AttackList>k__BackingField:
+  - {fileID: 11400000, guid: f043cd29711fb17408fd8adbd853a53b, type: 2}
+  - {fileID: 11400000, guid: fec4980a6639ba84d9b6a502fffa846f, type: 2}
+  - {fileID: 11400000, guid: b6def09731a061e4cba4ab107d5a8a51, type: 2}
+  weaponHolder: {fileID: 1963738452684093826}
+  weaponAnimatorOverrideController: {fileID: 22100000, guid: 62f76f96677400542adf5c699900e932, type: 2}
+  <MeleeWeaponSpawnPoint>k__BackingField: {fileID: 8286471578492779916}
+  <ThrownWeaponPrefab>k__BackingField: {fileID: 0}
+  thrownWeaponPrefabList:
+  - {fileID: 7923113920523447100, guid: 5eaa5d59437bc0648b3ff22bace0c202, type: 3}
+  - {fileID: 7923113920523447100, guid: b0e3946dc42dac244983a8d656c43481, type: 3}
+  - {fileID: 7923113920523447100, guid: 9bcdebb2b63a31542acfd05bc2517c26, type: 3}
+  - {fileID: 7923113920523447100, guid: 8cee0f32650308d49ac84f80673f3b3f, type: 3}
+  - {fileID: 7923113920523447100, guid: b039611883d01f54ebd6801340e7ac56, type: 3}

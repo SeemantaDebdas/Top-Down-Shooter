@@ -24,20 +24,15 @@ namespace TDS
                 ObjectPool.Instance.TryReturnObjectToPool(gameObject);
         }
 
-        void OnCollisionEnter(Collision collision)
+        protected virtual void OnCollisionEnter(Collision collision)
         {
             if ((targetLayerMask & (1 << collision.gameObject.layer)) != 0)
             {
                 Debug.Log("Colliding with: " + collision.transform.name + " Root: " + collision.transform.root.name);
 
                 Rigidbody rigidbody = GetComponent<Rigidbody>();
-                // rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-                // rigidbody.isKinematic = true;
-                if (collision.contactCount > 0)
-                {
-                    GameObject spawnedImpactFx = ObjectPool.Instance.GetObject(bulletHitEffect);
-                    spawnedImpactFx.transform.SetPositionAndRotation(collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
-                }
+
+                CreateImpactVFX(collision);
 
                 if (collision.gameObject.TryGetComponent(out Shield shield))
                 {
@@ -55,5 +50,13 @@ namespace TDS
             }
         }
 
+        protected void CreateImpactVFX(Collision collision)
+        {
+            if (collision.contactCount > 0)
+            {
+                GameObject spawnedImpactFx = ObjectPool.Instance.GetObject(bulletHitEffect);
+                spawnedImpactFx.transform.SetPositionAndRotation(collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+            }
+        }
     }
 }
