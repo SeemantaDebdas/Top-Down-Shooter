@@ -9,7 +9,7 @@ public class EnemyBullet : Bullet
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Shooting Player");
+            // Debug.Log("Shooting Player");
         }
 
         ObjectPool.Instance.TryReturnObjectToPool(gameObject);

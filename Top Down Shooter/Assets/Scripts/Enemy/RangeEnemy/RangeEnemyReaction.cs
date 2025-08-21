@@ -33,6 +33,12 @@ namespace TDS
 
             if (enemy.Animator.HasAnimationEnded(animation, 0.9f))
             {
+                if (rangeEnemy.CanUseCover())
+                {
+                    statemachine.SwitchState(rangeEnemy.RunToCoverState);
+                    return;
+                }
+
                 statemachine.SwitchState(rangeEnemy.BattleState);
             }
         }

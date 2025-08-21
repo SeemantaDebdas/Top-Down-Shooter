@@ -1932,6 +1932,12 @@ MonoBehaviour:
   <BulletPrefab>k__BackingField: {fileID: 3893762726296772978, guid: 0d69902b34205b946b1e795d37f31606, type: 3}
   bulletSpawnPoint: {fileID: 399692003069270812}
   rig: {fileID: 6872052822281289529}
+  <LastCover>k__BackingField: {fileID: 0}
+  <CurrentCover>k__BackingField: {fileID: 0}
+  <RunSpeed>k__BackingField: 3.59
+  <MinTimeInCoverState>k__BackingField: 3
+  <AdvanceStopDistance>k__BackingField: 5
+  <MinTimeAfterAdvanceStateAfterStopping>k__BackingField: 2
 --- !u!114 &899867907930302888
 MonoBehaviour:
   m_ObjectHideFlags: 0
