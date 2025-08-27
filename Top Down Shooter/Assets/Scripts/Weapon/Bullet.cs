@@ -6,22 +6,52 @@ namespace TDS
     {
         [SerializeField] LayerMask targetLayerMask;
         [SerializeField] GameObject bulletHitEffect;
+        [SerializeField] TrailRenderer trailRenderer; // Reference to the TrailRenderer
 
         float bulletRange;
         Vector3 startPosition;
 
-        public void Setup(float bulletRange, Vector3 position, Quaternion rotation)
+        private float trailRendererInitialTime;
+
+        public void Setup(float bulletRange, Vector3 position)
         {
             this.bulletRange = bulletRange;
 
-            transform.SetPositionAndRotation(position, rotation);
+            //transform.SetPositionAndRotation(position, rotation);
             startPosition = position;
+
+            // Reset trail renderer at the beginning
+            if (trailRenderer != null)
+            {
+                trailRenderer.Clear();
+                trailRenderer.time = trailRendererInitialTime;
+            }
+        }
+
+        void Awake()
+        {
+            // Store the initial time of the trail renderer
+            if (trailRenderer != null)
+            {
+                trailRendererInitialTime = trailRenderer.time;
+            }
         }
 
         void Update()
         {
-            if (Vector3.Distance(transform.position, startPosition) > bulletRange)
+            float distanceTravelled = Vector3.Distance(transform.position, startPosition);
+
+            // Fade the trail renderer as the bullet approaches the end of its range
+            if (trailRenderer != null)
+            {
+                float remainingDistanceNormalized = 1.0f - (distanceTravelled / bulletRange);
+                trailRenderer.time = trailRendererInitialTime * remainingDistanceNormalized;
+            }
+
+            if (distanceTravelled > bulletRange)
+            {
                 ObjectPool.Instance.TryReturnObjectToPool(gameObject);
+            }
         }
 
         protected virtual void OnCollisionEnter(Collision collision)
@@ -30,7 +60,12 @@ namespace TDS
             {
                 Debug.Log("Colliding with: " + collision.transform.name + " Root: " + collision.transform.root.name);
 
+                // Check for rigidbody to prevent errors on static objects
                 Rigidbody rigidbody = GetComponent<Rigidbody>();
+                if (rigidbody == null)
+                {
+                    Debug.LogWarning("Bullet has no Rigidbody component. Impact force will not be applied.");
+                }
 
                 CreateImpactVFX(collision);
 
@@ -41,11 +76,13 @@ namespace TDS
                 else if (collision.transform.root.TryGetComponent(out Enemy enemy))
                 {
                     enemy.GetHit();
-                    enemy.AddImpactForceAfterDeath(collision.rigidbody, rigidbody.linearVelocity, collision.contacts[0].point);
+                    // Ensure rigidbody exists before trying to access its linearVelocity
+                    if (rigidbody != null)
+                    {
+                        enemy.AddImpactForceAfterDeath(collision.rigidbody, rigidbody.linearVelocity, collision.contacts[0].point);
+                    }
                 }
 
-
-                // Destroy(gameObject);
                 ObjectPool.Instance.TryReturnObjectToPool(gameObject);
             }
         }

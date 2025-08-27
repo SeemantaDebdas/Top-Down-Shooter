@@ -170,10 +170,10 @@ namespace TDS
         {
             CurrentWeapon.bulletsInMagazine--;
 
-            GameObject spawnedBullet = ObjectPool.Instance.GetObject(bulletPrefab);
+            GameObject spawnedBullet = ObjectPool.Instance.GetObject(bulletPrefab, GetBulletSpawnPoint().position, Quaternion.LookRotation(GetBulletSpawnPoint().forward));
 
             Bullet bullet = spawnedBullet.GetComponent<Bullet>();
-            bullet.Setup(CurrentWeapon.weaponRange, GetBulletSpawnPoint().position, Quaternion.LookRotation(GetBulletSpawnPoint().forward));
+            bullet.Setup(CurrentWeapon.weaponRange, GetBulletSpawnPoint().position);
 
             Rigidbody bulletRb = spawnedBullet.GetComponent<Rigidbody>();
             bulletRb.mass = REFERENCE_BULLET_SPEED / bulletSpeed;

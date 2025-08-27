@@ -73,7 +73,7 @@ namespace TDS
         void InitializeWaypoints()
         {
             foreach (Transform waypoint in waypointList)
-                waypoint.parent = null;
+                waypoint.SetParent(null);
         }
 
         public bool IsPlayerInAgressionRadius() => Vector3.Distance(transform.position, Player.position) <= AgressionRadius;

@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a76fa861975cf54e904adfde5ffb406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <healthPoints>k__BackingField: 15
+  <healthPoints>k__BackingField: 5
   <IdleTime>k__BackingField: 3
   <CombatIdleTime>k__BackingField: 3
   <WalkSpeed>k__BackingField: 0.52875

@@ -5,6 +5,7 @@ using UnityEngine.Animations.Rigging;
 
 namespace TDS
 {
+    public enum RangeEnemyRigType { HEAD, RIGHT_HAND, LEFT_HAND }
     public class RangeEnemy : Enemy
     {
         const float REFERENCE_BULLET_SPEED = 20; //for setting the speed to mass ratio. for mass = 1, speed = 20
@@ -21,6 +22,8 @@ namespace TDS
 
         [Header("Rig Settings")]
         [SerializeField] Rig rig;
+        [SerializeField] MultiAimConstraint headRig, rightHandRig;
+        [SerializeField] TwoBoneIKConstraint leftHandRig;
 
         [field: Header("Cover System")]
         [field: SerializeField] public CoverPoint LastCover { get; private set; }
@@ -40,13 +43,16 @@ namespace TDS
         public RangeEnemyRunToCover RunToCoverState { get; private set; }
         public RangeEnemyAdvanceTowardsPlayer AdvanceTowardsPlayerState { get; private set; }
         public RangeEnemyGrenadeThrow GrenadeThrowState { get; private set; }
+        public RangeEnemyDead DeadState { get; private set; }
 
         [Header("Grenade State")]
         [SerializeField] bool canThrowGrenade = true;
+        [SerializeField] GameObject grenadePrefab;
         [field: SerializeField] public float GrenadeThrowCooldownTime { get; private set; } = 5;
+        [SerializeField] Transform grenadeLaunchTransform;
         float lastTimeThrownGrenade = -Mathf.Infinity;
 
-        EnemyRangeWeaponVisual weaponVisual;
+        public EnemyRangeWeaponVisual WeaponVisual { get; private set; }
 
 
         protected override void Awake()
@@ -54,21 +60,22 @@ namespace TDS
             base.Awake();
 
             IdleState = new RangeEnemyIdle(this, statemachine, "Idle");
-            MoveState = new RangeEnemyMove(this, statemachine, "Move");
+            MoveState = new RangeEnemyMove(this, statemachine, "Walk");
             ReactionState = new RangeEnemyReaction(this, statemachine, "Reaction");
             BattleState = new RangeEnemyBattle(this, statemachine, "Battle");
             RunToCoverState = new RangeEnemyRunToCover(this, statemachine, "Run");
             AdvanceTowardsPlayerState = new RangeEnemyAdvanceTowardsPlayer(this, statemachine, "Advance");
             GrenadeThrowState = new RangeEnemyGrenadeThrow(this, statemachine, "Throw Grenade");
+            DeadState = new RangeEnemyDead(this, statemachine, "");
         }
 
         void Start()
         {
-            weaponVisual = GetComponent<EnemyRangeWeaponVisual>();
+            WeaponVisual = GetComponent<EnemyRangeWeaponVisual>();
 
             InitializeRangeWeapon();
             statemachine.Initialize(IdleState);
-            DisableRig();
+            //DisableRig();
         }
 
         protected override void Update()
@@ -78,14 +85,14 @@ namespace TDS
 
         public void FireSingleBullet()
         {
-            Animator.SetTrigger("fire");
+            Animator.CrossFadeInFixedTime("Fire", 0.1f);
 
             Vector3 bulletDirection = Player.position + Vector3.up * 0.8f - bulletSpawnPoint.position;
             bulletDirection.Normalize();
 
-            GameObject bulletObj = ObjectPool.Instance.GetObject(BulletPrefab);
+            GameObject bulletObj = ObjectPool.Instance.GetObject(BulletPrefab, bulletSpawnPoint.position, Quaternion.LookRotation(bulletSpawnPoint.forward));
             EnemyBullet enemyBullet = bulletObj.GetComponent<EnemyBullet>();
-            enemyBullet.Setup(100, bulletSpawnPoint.position, Quaternion.LookRotation(bulletSpawnPoint.forward));
+            enemyBullet.Setup(100, bulletSpawnPoint.position);
 
             Rigidbody bulletRb = bulletObj.GetComponent<Rigidbody>();
             bulletRb.mass = REFERENCE_BULLET_SPEED / CurrentWeaponData.BulletSpeed;
@@ -103,8 +110,8 @@ namespace TDS
             }
 
             //setup weapon model
-            weaponVisual.InitializeWeaponModel(WeaponType);
-            bulletSpawnPoint = weaponVisual.CurrentWeaponModel.gunPoint;
+            WeaponVisual.InitializeWeaponModel(WeaponType);
+            bulletSpawnPoint = WeaponVisual.CurrentWeaponModel.gunPoint;
         }
 
         public void EnableRig()
@@ -115,6 +122,23 @@ namespace TDS
         public void DisableRig()
         {
             DOVirtual.Float(1, 0, 0.25f, v => rig.weight = v);
+        }
+
+
+        public void SetRigWeight(RangeEnemyRigType rigType, float weight)
+        {
+            switch (rigType)
+            {
+                case RangeEnemyRigType.HEAD:
+                    DOVirtual.Float(headRig.weight, weight, 0.25f, v => headRig.weight = v);
+                    break;
+                case RangeEnemyRigType.RIGHT_HAND:
+                    DOVirtual.Float(rightHandRig.weight, weight, 0.25f, v => rightHandRig.weight = v);
+                    break;
+                case RangeEnemyRigType.LEFT_HAND:
+                    DOVirtual.Float(leftHandRig.weight, weight, 0.25f, v => leftHandRig.weight = v);
+                    break;
+            }
         }
 
         #region Cover State
@@ -205,6 +229,13 @@ namespace TDS
         public void ThrowGrenade()
         {
             Debug.Log("Throwing Grenade!!!");
+
+            GameObject grenadeSpawn = ObjectPool.Instance.GetObject(grenadePrefab, grenadeLaunchTransform.position);
+            // grenadeSpawn.transform.position = grenadeLaunchTransform.position;
+
+            EnemyGrenade enemyGrenade = grenadeSpawn.GetComponent<EnemyGrenade>();
+            enemyGrenade.SetupGrenade(Player.position, 1f, 0.5f);
+
             lastTimeThrownGrenade = Time.time;
         }
 
@@ -218,6 +249,19 @@ namespace TDS
             }
 
             return false;
+        }
+
+        public override void GetHit()
+        {
+            base.GetHit();
+
+            if (healthPoints > 0)
+                return;
+
+            if (statemachine.CurrentState.GetType() == typeof(MeleeEnemyDead))
+                return;
+
+            statemachine.SwitchState(DeadState);
         }
     }
 }

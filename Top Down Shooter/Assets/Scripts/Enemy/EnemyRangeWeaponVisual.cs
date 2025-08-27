@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace TDS
@@ -6,22 +7,25 @@ namespace TDS
     public class EnemyRangeWeaponVisual : MonoBehaviour
     {
         [SerializeField] Transform leftHandIKTarget;
-        [SerializeField] WeaponModel[] weaponModels;
+        [SerializeField] Transform weaponHandler;
+        [SerializeField] Transform leftHandWeaponHandler;
+        [SerializeField] List<WeaponModel> weaponModels;
         Animator animator;
 
         public WeaponModel CurrentWeaponModel { get; private set; }
+        WeaponModel leftHandWeaponModel;
 
         private void Awake()
         {
-            weaponModels = GetComponentsInChildren<WeaponModel>(true);
+            //weaponModels = GetComponentsInChildren<WeaponModel>(true);
             animator = GetComponent<Animator>();
         }
 
         private void InitializeRandomWeaponModel(WeaponType weaponType)
         {
-            int randomIndex = UnityEngine.Random.Range(0, weaponModels.Length);
+            int randomIndex = UnityEngine.Random.Range(0, weaponModels.Count);
 
-            for (int i = 0; i < weaponModels.Length; i++)
+            for (int i = 0; i < weaponModels.Count; i++)
             {
                 weaponModels[i].gameObject.SetActive(i == randomIndex);
             }
@@ -29,10 +33,20 @@ namespace TDS
 
         public void InitializeWeaponModel(WeaponType weaponType)
         {
-            if (weaponModels.Length == 0)
-                weaponModels = GetComponentsInChildren<WeaponModel>(true);
+            if (weaponModels.Count == 0)
+            {
+                //weaponModels = GetComponentsInChildren<WeaponModel>(true);
+                for (int i = 0; i < weaponHandler.childCount; i++)
+                {
+                    Transform child = weaponHandler.GetChild(i);
+                    if (child.TryGetComponent(out WeaponModel weaponModel))
+                    {
+                        weaponModels.Add(weaponModel);
+                    }
+                }
+            }
 
-            for (int i = 0; i < weaponModels.Length; i++)
+            for (int i = 0; i < weaponModels.Count; i++)
             {
                 WeaponModel weaponModel = weaponModels[i];
 
@@ -45,6 +59,7 @@ namespace TDS
                     CurrentWeaponModel = weaponModel;
                     ActivateWeaponLayer((int)weaponModel.holdType - 1);
                     SetupLeftHandIK(weaponModel.holdPoint);
+                    SetupLeftHandWeaponModel(weaponType);
                 }
             }
         }
@@ -63,5 +78,26 @@ namespace TDS
             Transform weaponLeftHandTarget = holdPoint;
             leftHandIKTarget.SetLocalPositionAndRotation(weaponLeftHandTarget.localPosition, weaponLeftHandTarget.localRotation);
         }
+
+        void SetupLeftHandWeaponModel(WeaponType weaponType)
+        {
+            for (int i = 0; i < leftHandWeaponHandler.childCount; i++)
+            {
+                Transform child = leftHandWeaponHandler.GetChild(i);
+                if (child.TryGetComponent(out WeaponModel weaponModel))
+                {
+                    //child.gameObject.SetActive(weaponModel.weaponType == weaponType);
+
+                    if (weaponModel.weaponType == weaponType)
+                        leftHandWeaponModel = weaponModel;
+                }
+            }
+        }
+
+        public void EnableMainWeaponModel() => CurrentWeaponModel.gameObject.SetActive(true);
+        public void DisableMainWeaponModel() => CurrentWeaponModel.gameObject.SetActive(false);
+
+        public void DisableLeftHandWeaponModel() => leftHandWeaponModel.gameObject.SetActive(false);
+        public void EnableLeftHandWeaponModel() => leftHandWeaponModel.gameObject.SetActive(true);
     }
 }

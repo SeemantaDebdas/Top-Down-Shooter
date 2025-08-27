@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5799850613502504074, guid: 5311f4e7e7949e44d863f6eab37ace8e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.6
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 5799850613502504074, guid: 5311f4e7e7949e44d863f6eab37ace8e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.6
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 5799850613502504074, guid: 5311f4e7e7949e44d863f6eab37ace8e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.6
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 5799850613502504074, guid: 5311f4e7e7949e44d863f6eab37ace8e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -96,7 +96,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 297589004779820249, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
       propertyPath: m_Name
-      value: EnemyShield
+      value: Enemy Shield
       objectReference: {fileID: 0}
     - target: {fileID: 2557200483067943339, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
       propertyPath: m_LocalPosition.x
@@ -148,8 +148,51 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3191381257786209645, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
       insertIndex: -1
       addedObject: {fileID: 766103838965381602}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 297589004779820249, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4811938319488743764}
   m_SourcePrefab: {fileID: 100100000, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
+--- !u!1 &6472793688810056071 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 297589004779820249, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}
+  m_PrefabInstance: {fileID: 6769688759855185246}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4811938319488743764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6472793688810056071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a76fa861975cf54e904adfde5ffb406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <healthPoints>k__BackingField: 5
+  <IdleTime>k__BackingField: 3
+  <CombatIdleTime>k__BackingField: 3
+  <WalkSpeed>k__BackingField: 0.52875
+  <ChaseSpeed>k__BackingField: 3.752
+  <DodgeSpeed>k__BackingField: 6.916
+  <RotationSpeed>k__BackingField: 5
+  <AgressionRadius>k__BackingField: 6
+  waypointList:
+  - {fileID: 4743863874167731969, guid: f1aa7df724df25e459022d69dd815209, type: 3}
+  - {fileID: 1679296306811679862, guid: f1aa7df724df25e459022d69dd815209, type: 3}
+  - {fileID: 245771167721386441, guid: f1aa7df724df25e459022d69dd815209, type: 3}
+  minDistanceToThrowMeleeWeapon: 3
+  <AttackAnimationLayer>k__BackingField: 3
+  <AttackList>k__BackingField:
+  - {fileID: 11400000, guid: f043cd29711fb17408fd8adbd853a53b, type: 2}
+  - {fileID: 11400000, guid: fec4980a6639ba84d9b6a502fffa846f, type: 2}
+  - {fileID: 11400000, guid: b6def09731a061e4cba4ab107d5a8a51, type: 2}
+  weaponHolder: {fileID: 1963738452684093826, guid: f1aa7df724df25e459022d69dd815209, type: 3}
+  weaponAnimatorOverrideController: {fileID: 0}
+  <MeleeWeaponSpawnPoint>k__BackingField: {fileID: 0}
+  <ThrownWeaponPrefab>k__BackingField: {fileID: 0}
+  thrownWeaponPrefabList: []
 --- !u!4 &8194532992902809651 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3191381257786209645, guid: 7584a5b2952ac30498f09289e44bdb80, type: 3}

@@ -39,7 +39,7 @@ namespace TDS
             poolDictionary[prefab].Enqueue(objectSpawn);
         }
 
-        public GameObject GetObject(GameObject prefab)
+        public GameObject GetObject(GameObject prefab, Vector3 position = default, Quaternion rotation = default)
         {
             if (!poolDictionary.ContainsKey(prefab))
                 InitializePool(prefab);
@@ -48,6 +48,9 @@ namespace TDS
                 CreateNewObject(prefab);
 
             GameObject objectToReturn = poolDictionary[prefab].Dequeue();
+
+            objectToReturn.transform.SetPositionAndRotation(position, rotation);
+
             objectToReturn.SetActive(true);
             return objectToReturn;
         }

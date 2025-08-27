@@ -23,8 +23,11 @@ namespace TDS
             ResetWeapon();
 
             enemy.Agent.ResetPath();
-            enemy.Animator.CrossFadeInFixedTime(animation, 0.1f);
+            enemy.Animator.CrossFadeInFixedTime(animation, 0.25f);
+
             rangeEnemy.EnableRig();
+            rangeEnemy.SetRigWeight(RangeEnemyRigType.HEAD, 1);
+            rangeEnemy.SetRigWeight(RangeEnemyRigType.RIGHT_HAND, 1);
 
             coverCheckTimer = coverCheckInterval; // so it checks immediately on enter
         }
@@ -36,6 +39,8 @@ namespace TDS
             if (TryChangeCoverWhenPlayerInSight())
                 return;
 
+            Debug.Log("Can't change cover");
+
 
             if (rangeEnemy.CanThrowGrenade())
             {
@@ -43,12 +48,15 @@ namespace TDS
                 return;
             }
 
+            Debug.Log("Can't throw grenade");
 
             if (!enemy.IsPlayerInAgressionRadius() && IsCoverTimeOver())
             {
                 statemachine.SwitchState(rangeEnemy.AdvanceTowardsPlayerState);
                 return;
             }
+
+            Debug.Log("Can't advance towards player");
 
             enemy.FaceTarget(enemy.Player.position);
 
@@ -61,6 +69,8 @@ namespace TDS
 
                 return;
             }
+
+            Debug.Log("SHOOT!");
 
             if (CanShoot())
             {

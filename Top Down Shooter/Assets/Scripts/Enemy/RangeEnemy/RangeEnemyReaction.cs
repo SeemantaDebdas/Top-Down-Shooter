@@ -14,6 +14,8 @@ namespace TDS
 
             int randomInt = Random.Range(1, 5);
 
+            rangeEnemy.DisableRig();
+
             enemy.Animator.SetFloat("randomInt", randomInt);
             enemy.Animator.CrossFadeInFixedTime(animation, 0.1f);
 

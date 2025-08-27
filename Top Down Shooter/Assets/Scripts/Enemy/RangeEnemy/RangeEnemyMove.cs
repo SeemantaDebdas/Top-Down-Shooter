@@ -16,7 +16,7 @@ namespace TDS
             waypoint = enemy.GetCurrentWaypoint();
 
             enemy.Agent.speed = enemy.WalkSpeed;
-            enemy.Animator.SetFloat("speed", enemy.WalkSpeed);
+            // enemy.Animator.SetFloat("speed", enemy.WalkSpeed);
             enemy.Animator.CrossFadeInFixedTime(animation, 0.25f);
         }
 

@@ -14,6 +14,8 @@ namespace TDS
 
             stateTimer = enemy.IdleTime;
 
+            rangeEnemy.SetRigWeight(RangeEnemyRigType.HEAD, 0);
+            rangeEnemy.SetRigWeight(RangeEnemyRigType.RIGHT_HAND, 0);
             enemy.Animator.CrossFadeInFixedTime(animation, 0.25f);
         }
 

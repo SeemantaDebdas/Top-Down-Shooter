@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.301}
-  m_LocalScale: {x: 0.025, y: 0.025, z: 0.025}
+  m_LocalScale: {x: 0.015, y: 0.015, z: 0.015}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3149629180724174267}
@@ -154,6 +154,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 448
   bulletHitEffect: {fileID: 8895255742289335521, guid: b266d71e576d3954abfc454f0cb5684a, type: 3}
+  trailRenderer: {fileID: 4051810906808213952}
 --- !u!1 &7859006168604705936
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,7 +242,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.022026908
+        value: 0.009529959
         inSlope: 0
         outSlope: 0
         tangentMode: 0

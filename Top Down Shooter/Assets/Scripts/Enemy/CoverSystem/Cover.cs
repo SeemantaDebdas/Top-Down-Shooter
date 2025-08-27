@@ -13,7 +13,8 @@ namespace TDS
 
         void Awake()
         {
-            GenerateCoverPoints();
+            if (CoverPoints.Count == 0)
+                GenerateCoverPoints();
         }
 
         void Start()
